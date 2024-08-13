@@ -24,8 +24,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+   const url = new URL(this.url) 
+    return url.hostname;
   }
 }
 
@@ -73,8 +73,17 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
-    // UNIMPLEMENTED: complete this function!
+  async addStory(user, newStory) {
+        const response = await axios({
+      url: `${BASE_URL}/stories`,
+      method: "POST",
+      data: { token: user.loginToken, 
+              story: newStory}
+            });
+
+    const story = new Story(response.data.story);
+    return story;
+
   }
 }
 
@@ -194,3 +203,4 @@ class User {
     }
   }
 }
+
