@@ -25,14 +25,16 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
 
   const userStars = Boolean(currentUser);
+  const storyDelete = Boolean(currentUser);
   return $(`
       <li id="${story.storyId}">
       ${userStars ? starStatus(story, currentUser): ""}
-        <a href="${story.url}" target="a_blank" class="story-link">
+         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
         <small class="story-author">by ${story.author}</small>
+        ${storyDelete ? addRemoveButton(): ""} 
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
@@ -48,6 +50,11 @@ function starStatus(story, user) {
   else{
     return '<span class="story-unmarked star"></span>'
   }
+}
+
+function addRemoveButton(){
+   return '<span class="removeButton"></span>'
+   
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -70,16 +77,13 @@ function putStoriesOnPage() {
 
 async function submitNewStory(evt){
   console.debug("submitNewStory");
-  evt.preventDefault;
-
-// Creates an object with the title, author and url
+  evt.preventDefault();
 
   const storyTitle = $("#story-title").val();
   const storyAuthor = $("#story-author").val();
   const storyUrl = $("#story-url").val();
     
- //Creates a new Story object
-   const newStoryObj = await storyList.addStory(currentUser, {
+  const newStoryObj = await storyList.addStory(currentUser, {
       title: storyTitle,
       author: storyAuthor,
       url: storyUrl,
@@ -87,14 +91,27 @@ async function submitNewStory(evt){
 
  // Adds to StoryList
  const newStory = generateStoryMarkup(newStoryObj);
- console.log(newStory);
  $allStoriesList.prepend(newStory);
-
  $storyForm.trigger("reset");
 }
 
 $storyForm.on("submit", submitNewStory);
 
+
+async function removeStory(e){
+  e.preventDefault();
+  const $story = $(e.target).closest("li").attr("id");
+  let userToken = currentUser.loginToken; 
+  await axios({ 
+    url: `${BASE_URL}/stories/${$story}`,
+    method: "DELETE",
+    data: { token: userToken}
+
+  })
+
+  storyList.stories = storyList.stories.filter(value => value.storyId !== $story);
+  putStoriesOnPage();
+}
 
 
 async function showUserFavoriteList(){
@@ -111,7 +128,7 @@ async function toggleUserFavorites (e){
   const $starId = $starLi.attr("id");
   const $user = currentUser;
   const $story = storyList.stories.filter( val => val.storyId === $starId)[0];
-   
+  
   
   const $defaultStar = $star.hasClass( "story-unmarked" ) ? true: false;
   
@@ -132,3 +149,4 @@ async function toggleUserFavorites (e){
 
 $allStoriesList.on("click", ".star", toggleUserFavorites);
 $favoriteStories.on("click", ".star", toggleUserFavorites);
+$allStoriesList.on("click", ".removeButton", removeStory);

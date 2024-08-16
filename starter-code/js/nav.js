@@ -37,9 +37,9 @@ function updateNavOnLogin() {
 
 // Show user the submit form on click
 function navSubmitClick(evt){
-  evt.preventDefault;
-  console.debug(navSubmitClick);
-  $storyForm.removeClass("hidden");
+  evt.preventDefault();
+  console.debug("navSubmitClick");
+  $storyForm.show();
 }
 
 $body.on("click", "#nav-submit", navSubmitClick);

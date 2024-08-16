@@ -73,7 +73,7 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, newStory) {
+ async addStory(user, newStory) {
         const response = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
@@ -86,17 +86,7 @@ class StoryList {
 
   }
 
-  async removeStory(user, story){
-  
-    await axios({ 
-      url: `${BASE_URL}/stories/${story.storyId}`,
-      method: "DELETE",
-      data: { token: user.loginToken}
-
-    })
-
-    this.stories = this.stories.filter(value => value.storyId !== story.storyId);
-  }
+ 
 }
 
 
