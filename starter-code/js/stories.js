@@ -23,8 +23,11 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+
+  const userStars = Boolean(currentUser);
   return $(`
       <li id="${story.storyId}">
+      ${userStars ? starStatus(story, currentUser): ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -33,6 +36,18 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+/** Checks the user's favorite list and updates the star */
+
+function starStatus(story, user) {
+  const marked = user.checkFavoriteStatus(story) ? true : false
+  if(marked){
+    return '<span class="story-marked star"></span>'
+  }
+  else{
+    return '<span class="story-unmarked star"></span>'
+  }
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -51,26 +66,26 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-//Adds story to StoryList
+/** Adds story to StoryList. */
 
 async function submitNewStory(evt){
   console.debug("submitNewStory");
   evt.preventDefault;
 
-  // Create an object with the title, author and url
+// Creates an object with the title, author and url
 
   const storyTitle = $("#story-title").val();
   const storyAuthor = $("#story-author").val();
   const storyUrl = $("#story-url").val();
     
- //Create a new Story object
+ //Creates a new Story object
    const newStoryObj = await storyList.addStory(currentUser, {
       title: storyTitle,
       author: storyAuthor,
       url: storyUrl,
     });
 
- // Add to StoryList
+ // Adds to StoryList
  const newStory = generateStoryMarkup(newStoryObj);
  console.log(newStory);
  $allStoriesList.prepend(newStory);
@@ -79,3 +94,41 @@ async function submitNewStory(evt){
 }
 
 $storyForm.on("submit", submitNewStory);
+
+
+
+async function showUserFavoriteList(){
+  $favoriteStories.empty();
+ for(let story of currentUser.favorites){
+   const newStory = generateStoryMarkup(story);
+  $favoriteStories.prepend(newStory); 
+ }
+};
+
+async function toggleUserFavorites (e){
+  const $star = $(e.target);
+  const $starLi = $star.closest("li");
+  const $starId = $starLi.attr("id");
+  const $user = currentUser;
+  const $story = storyList.stories.filter( val => val.storyId === $starId)[0];
+   
+  
+  const $defaultStar = $star.hasClass( "story-unmarked" ) ? true: false;
+  
+  if($defaultStar){
+    $star
+      .removeClass( "story-unmarked" )
+      .addClass( "story-marked" )
+    $user.addFavorite($story);
+  }
+  else {
+    $star
+    .removeClass( "story-marked" )
+    .addClass( "story-unmarked" )
+    $user.removeFavorite($story);
+  }
+
+}
+
+$allStoriesList.on("click", ".star", toggleUserFavorites);
+$favoriteStories.on("click", ".star", toggleUserFavorites);

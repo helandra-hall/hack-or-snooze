@@ -43,3 +43,12 @@ function navSubmitClick(evt){
 }
 
 $body.on("click", "#nav-submit", navSubmitClick);
+
+/** Shows the user's favorite stories */
+function navShowFavorites(){
+  $allStoriesList.hide();
+  showUserFavoriteList();
+  $favoriteStories.show();
+}
+
+$body.on("click", "#nav-favorite", navShowFavorites);

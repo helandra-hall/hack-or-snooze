@@ -37,3 +37,17 @@
 .story-user {
   display: block;
 }
+
+.story-unmarked::before{
+  content: "\2606";
+ }
+
+.story-marked::before{
+  content: "\2605";
+  
+}
+
+.star{
+  cursor: pointer;
+  font-size: larger; 
+}
