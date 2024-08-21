@@ -6,6 +6,7 @@ nav {
   align-items: center;
   padding: 5px 20px;
   border-radius: 3px 3px 0 0;
+  height: 50px;
 }
 
 .navbar-brand {
@@ -21,3 +22,37 @@ nav {
   margin-left: auto;
   text-align: right;
 }
+
+.main-nav-links {
+   margin: 0 15px;
+  align-items: center;
+   
+}
+.user-link:nth-child(2){
+  margin-right: 0px;
+}
+
+.user-link:nth-child(6){
+  margin-left: 0px;
+}
+ .line-separator{
+  height: 1rem;
+  width: 0px;
+  margin: 0px 2px;
+  padding:0px;
+  border-left:solid 2px black;
+  display: inline-block;
+ }
+ .line-separator:nth-child(3){
+  position: relative;
+  left: 2px;
+ }
+ .line-separator:nth-child(5){
+  position: relative;
+  right: 2px;
+  margin-right: 0px;
+ }
+
+ .shown{
+  display: block flex;
+ }

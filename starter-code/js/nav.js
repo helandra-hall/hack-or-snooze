@@ -29,7 +29,7 @@ $navLogin.on("click", navLoginClick);
 
 function updateNavOnLogin() {
   console.debug("updateNavOnLogin");
-  $(".main-nav-links").show();
+  $(".main-nav-links").toggleClass("shown");
   $navLogin.hide();
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
@@ -39,6 +39,7 @@ function updateNavOnLogin() {
 function navSubmitClick(evt){
   evt.preventDefault();
   console.debug("navSubmitClick");
+  hidePageComponents();
   $storyForm.show();
 }
 
@@ -46,9 +47,26 @@ $body.on("click", "#nav-submit", navSubmitClick);
 
 /** Shows the user's favorite stories */
 function navShowFavorites(){
-  $allStoriesList.hide();
+  hidePageComponents();
   showUserFavoriteList();
   $favoriteStories.show();
 }
 
 $body.on("click", "#nav-favorite", navShowFavorites);
+
+
+function navYourStories(){
+  hidePageComponents();
+  showUserSubmittedStories();
+  $ownStories.show();
+  
+}
+
+$body.on("click", "#nav-myStories", navYourStories);
+
+function navUserProfile(){
+  hidePageComponents();
+  $userProfile.show();
+}
+
+$body.on("click", "#nav-user-profile", navUserProfile);

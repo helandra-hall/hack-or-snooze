@@ -33,9 +33,16 @@
   <nav>
     <div class="navbar-brand">
       <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
-      <a class="nav-link" href="#" id="nav-submit">submit</a>
-      <a class="nav-link" href="#" id="nav-favorite">favorites</a>
     </div>
+    <div class="main-nav-links hidden">
+      <div class="line-separator"></div>
+      <a class="nav-link user-link" href="#" id="nav-submit">submit</a>
+      <div class="line-separator"></div>
+      <a class="nav-link user-link" href="#" id="nav-favorite">favorites</a>
+      <div class="line-separator"></div>
+      <a class="nav-link user-link" href="#" id="nav-myStories">my stories</a>
+    </div>
+
     <div class="nav-right">
       <a class="nav-link" href="#" id="nav-login">login/signup</a>
       <a class="nav-link" href="#" id="nav-user-profile"></a>
@@ -43,40 +50,74 @@
     </div>
   </nav>
 
+  <!-- area for user profile -->
+  <section class=" user-profile-container container">
+    <div id="userProfile" class="hidden">
+      <div id="user-profile-title" >
+        <h4>User Profile Information</h4>
+      </div>
+      <div id="user-name"> Name: <span class="profileName"></span></div>
+      <div id="user-username"> Username: <span class="profileUserName"></span></div>
+      <div id="user-dateCreation"> Account Created: <span class="profileCreation"></span></div>
+      <p> If you need to change your username or password, click the button below.</p>
+    <button id="updateButton">Update Information</button>
+      <p> If you would like to delete your account, click the button below.</p>
+    <button id="deleteAccountBtn">Delete Your Account</button>
+    </div>
+    <form action="#" id="userInfoChange" class="hidden">
+      <div>
+        <div>
+      <label for="updatedName">Your Name: </label>
+      <input type="text" id="updatedName">
+        </div>
+        <div>
+      <label for="updatedPassword">New Password: </label>
+      <input type="password" id="updatedPassword">
+        </div>
+      </div>
+      <button type="submit">Submit edits</button>
+    </form>
+  </section>
+
   <!-- area for story submission -->
   <section class="story-form-container container">
     <form action="#" id="story-form" class="hidden" method="post">
       <div class="story-input">
         <label for="story-author">Author:</label>
-        <input 
-        type="text" 
-        name="story-author" 
-        id="story-author" 
-        placeholder="What is the author's name?" 
-        required>
+        <input type="text" name="story-author" id="story-author" placeholder="What is the author's name?" required>
       </div>
       <div class="story-input">
         <label for="story-title">Title:</label>
-        <input 
-        type="text" 
-        name="story-title" 
-        id="story-title" 
-        placeholder="What is the title of the story?" 
-        required>
+        <input type="text" name="story-title" id="story-title" placeholder="What is the title of the story?" required>
       </div>
       <div class="story-input">
         <label for="story-url">URL:</label>
-        <input 
-        type="text" 
-        name="story-url" 
-        id="story-url" 
-        placeholder="What is the story link?" 
-        required>
+        <input type="text" name="story-url" id="story-url" placeholder="What is the story link?" required>
       </div>
       <button type="submit">Submit</button>
       <hr>
     </form>
-      </section>
+  </section>
+
+  <!-- area for story edits -->
+  <section class="story-edits-form-container container">
+    <form action="#" id="story-editor" class="hidden" method="post">
+      <div class="edit-story">
+        <label for="story-author">Author:</label>
+        <input type="text" name="story-author" id="edit-story-author">
+      </div>
+      <div class="edit-story">
+        <label for="story-title">Title:</label>
+        <input type="text" name="story-title" id="edit-story-title">
+      </div>
+      <div class="edit-story">
+        <label for="story-url">URL:</label>
+        <input type="text" name="story-url" id="edit-story-url">
+      </div>
+      <button type="submit">Submit edits</button>
+      <hr>
+    </form>
+  </section>
 
   <!-- area for stories (all stories, user stories, favorites) -->
   <section class="stories-container container">
@@ -88,7 +129,11 @@
     <ol id="all-stories-list" class="stories-list"></ol>
 
     <!-- List of user's favorite stories -->
-     <ol id="favorite-stories" class="stories-list hidden"></ol>
+    <ol id="favorite-stories" class="stories-list hidden"></ol>
+
+    <!-- List of user's submitted stories -->
+    <ol id="own-stories" class="stories-list hidden"></ol>
+
 
   </section>
 

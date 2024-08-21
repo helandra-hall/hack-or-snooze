@@ -21,6 +21,13 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
 
+  if (currentUser === undefined) {
+    hidePageComponents();
+    $loginForm.show();
+    $signupForm.show();
+    return;
+  }
+
   $loginForm.trigger("reset");
 
   saveUserCredentialsInLocalStorage();
@@ -43,6 +50,12 @@ async function signup(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.signup(username, password, name);
 
+  if (currentUser === undefined) {
+    hidePageComponents();
+    $loginForm.show();
+    $signupForm.show();
+    return;
+  }
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
 
@@ -58,6 +71,7 @@ $signupForm.on("submit", signup);
 
 function logout(evt) {
   console.debug("logout", evt);
+
   localStorage.clear();
   location.reload();
 }
@@ -111,6 +125,54 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
 
   $allStoriesList.show();
-
+  $loginForm.hide();
+  $signupForm.hide();
   updateNavOnLogin();
+  addUserProfileInfo();
+}
+
+function addUserProfileInfo() {
+  const $name = $("#user-name").find("span")[0];
+  const $userName = $("#user-username").find("span")[0];
+  const $dateCreated = $("#user-dateCreation").find("span")[0];
+
+  $($name).text(`${currentUser.name}`);
+  $($userName).text(`${currentUser.username}`);
+  $($dateCreated).text(`${currentUser.createdAt.slice(0, 10)}`);
+ 
+}
+
+$("#updateButton").on("click", function () {
+  $("#updatedName").val(`${currentUser.name}`);
+  $("#updatedPassword").val($("#login-password").val());
+  $("#userInfoChange").slideDown();
+});
+
+$("#userInfoChange").on("submit", updateUserProfile);
+
+function updateUserProfile(e) {
+  e.preventDefault;
+  $("#userInfoChange").slideUp();
+  $userProfile.hide();
+  const $newName = $("#updatedName").val();
+  const $changedPassword = $("#updatedPassword").val();
+  const userData = {
+    name: $newName,
+    password: $changedPassword,
+  };
+if(userData.password.length === 0){
+  delete userData.password;
+}
+currentUser.editUserInformation(currentUser, userData);
+  
+  alert("Your information has been updated.");
+  $allStoriesList.show();
+}
+
+$("#deleteAccountBtn").on("click", deleteUserAccount());
+function deleteUserAccount(){
+  if(window.confirm("Are you sure you want to delete your account?")){
+    currentUser.deleteUser(currentUser);
+    logout();
+  }
 }

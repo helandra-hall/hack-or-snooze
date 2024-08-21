@@ -16,12 +16,22 @@
   margin: 20px 30px;
 }
 
+hr{
+  border: none;
+  height: 1px;
+  background-color: hsla(0, 0%, 69%, 0.3);
+}
+
+#favorite-stories,
+#own-stories{
+  list-style: none;
+}
 
 /* Individual stories */
 
 .story-link {
   color: black;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: normal;
   margin: 18px 0;
 }
@@ -31,11 +41,20 @@
 }
 
 .story-author {
-  margin-left: 2em;
+  
+  color: hsla(108, 100%, 30%, 1);
+  display: block;
+  padding: 2px ;
+  font-size: .90rem;
 }
 
 .story-user {
   display: block;
+ 
+  color: hsla(24, 100%, 60%, 1);
+  font-size: .9rem;
+  padding: 2px;
+
 }
 
 .story-unmarked::before{
@@ -49,12 +68,19 @@
 
 .star{
   cursor: pointer;
-  font-size: larger; 
+  font-size: 1.2rem; 
+}
+.star:hover{
+  color:yellow;
+  text-shadow: black 1px 1px 1px;
 }
 
 .removeButton:before{
   content: "\2716";
   position: relative;
-  left: 10px;
+  font-size: 1rem; 
   cursor: pointer;
-}
+  }
+  .removeButton:hover{
+    color: red;
+  }
