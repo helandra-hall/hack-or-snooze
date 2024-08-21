@@ -139,20 +139,18 @@ function addUserProfileInfo() {
   $($name).text(`${currentUser.name}`);
   $($userName).text(`${currentUser.username}`);
   $($dateCreated).text(`${currentUser.createdAt.slice(0, 10)}`);
- 
 }
 
 $("#updateButton").on("click", function () {
   $("#updatedName").val(`${currentUser.name}`);
-   $("#userInfoChange").slideDown();
+  $("#userInfoChange").slideDown();
 });
 
-$("#cancelUserEditsBtn").on("click", function(){
+$("#cancelUserEditsBtn").on("click", function () {
   $("#userInfoChange").slideUp();
+});
 
-})
-
-$("#userInfoChange").on("submit", updateUserProfile);
+$("#userEditSubmitBtn").on("click", updateUserProfile);
 
 function updateUserProfile(e) {
   e.preventDefault;
@@ -164,18 +162,23 @@ function updateUserProfile(e) {
     name: $newName,
     password: $changedPassword,
   };
-if(userData.password.length === 0){
-  delete userData.password;
-}
-currentUser.editUserInformation(currentUser, userData);
-  
+  if (userData.password.length === 0) {
+    delete userData.password;
+  }
+  currentUser.editUserInformation(currentUser, userData);
+
   alert("Your information has been updated.");
   $allStoriesList.show();
 }
 
-$("#deleteAccountBtn").on("click", deleteUserAccount());
-function deleteUserAccount(){
-  if(window.confirm("Are you sure you want to delete your account?")){
+$("#deleteAccountBtn").on("click", function () {
+  deleteUserAccount();
+});
+
+function deleteUserAccount() {
+  if (
+    window.confirm("Are you sure you want to delete your account?")
+  ) {
     currentUser.deleteUser(currentUser);
     logout();
   }
