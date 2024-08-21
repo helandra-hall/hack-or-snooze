@@ -12,3 +12,43 @@
 .account-forms-container {
   padding-left: 20px;
 }
+
+/* User Profile*/
+
+#userProfile{
+  text-align: center;
+}
+
+#userData{
+  display: inline-block;
+  text-align: left;
+  padding: 15px;
+  margin-left: 30px;
+  }
+#changeSection{
+  margin:15px;
+}
+#deleteSection{
+  padding-bottom: 15px;
+  margin: 15px;
+}
+
+#nameSection label,
+#passwordSection label {
+  padding: 10px;
+  width: 7rem;
+}
+
+#userEditSubmitBtn{
+  position: relative;
+  left: 35%;
+  width: 6rem;
+}
+
+#cancelUserEditsBtn{
+  background-color: red;
+  color: white;
+  position: relative;
+  left: 35%;
+  width: 6rem;
+}

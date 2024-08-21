@@ -56,26 +56,34 @@
       <div id="user-profile-title" >
         <h4>User Profile Information</h4>
       </div>
-      <div id="user-name"> Name: <span class="profileName"></span></div>
+      <div id="userData">
+        <div id="user-name"> Name: <span class="profileName"></span></div>
       <div id="user-username"> Username: <span class="profileUserName"></span></div>
       <div id="user-dateCreation"> Account Created: <span class="profileCreation"></span></div>
+      </div>
+      <div id="changeSection">
       <p> If you need to change your username or password, click the button below.</p>
     <button id="updateButton">Update Information</button>
+      </div>
+      <div id="deleteSection">
       <p> If you would like to delete your account, click the button below.</p>
     <button id="deleteAccountBtn">Delete Your Account</button>
     </div>
+    </div>
     <form action="#" id="userInfoChange" class="hidden">
       <div>
-        <div>
+        <div id="nameSection">
       <label for="updatedName">Your Name: </label>
       <input type="text" id="updatedName">
         </div>
-        <div>
+        <div id="passwordSection">
       <label for="updatedPassword">New Password: </label>
       <input type="password" id="updatedPassword">
         </div>
       </div>
-      <button type="submit">Submit edits</button>
+      
+      <button type="submit" id="userEditSubmitBtn">Submit edits</button>
+      <button id="cancelUserEditsBtn">Nevermind</button>
     </form>
   </section>
 

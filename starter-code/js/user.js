@@ -144,9 +144,13 @@ function addUserProfileInfo() {
 
 $("#updateButton").on("click", function () {
   $("#updatedName").val(`${currentUser.name}`);
-  $("#updatedPassword").val($("#login-password").val());
-  $("#userInfoChange").slideDown();
+   $("#userInfoChange").slideDown();
 });
+
+$("#cancelUserEditsBtn").on("click", function(){
+  $("#userInfoChange").slideUp();
+
+})
 
 $("#userInfoChange").on("submit", updateUserProfile);
 
