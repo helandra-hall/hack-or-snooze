@@ -11,7 +11,7 @@ let currentUser;
 
 async function login(evt) {
   console.debug("login", evt);
-  evt.preventDefault()();
+  evt.preventDefault();
 
   // grab the username and password
   const username = $("#login-username").val();
@@ -40,7 +40,7 @@ $loginForm.on("submit", login);
 
 async function signup(evt) {
   console.debug("signup", evt);
-  evt.preventDefault()();
+  evt.preventDefault();
 
   const name = $("#signup-name").val();
   const username = $("#signup-username").val();

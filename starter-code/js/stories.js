@@ -99,7 +99,7 @@ function loadMoreStories(){
 
 async function submitNewStory(evt) {
   console.debug("submitNewStory");
-  evt.preventDefault()();
+  evt.preventDefault();
 
   const storyTitle = $("#story-title").val();
   const storyAuthor = $("#story-author").val();
@@ -113,7 +113,7 @@ async function submitNewStory(evt) {
 
   
   const newStory = generateStoryMarkup(newStoryObj);
-  $ownStories.append(newStory);
+  currentUser.ownStories.append(newStory);
   $allStoriesList.prepend(newStory);
   $storyForm.trigger("reset");
   $storyForm.hide();
@@ -123,7 +123,7 @@ async function submitNewStory(evt) {
 $storyForm.on("submit", submitNewStory);
 
 async function removeStory(e) {
-  e.preventDefault()();
+  e.preventDefault();
   const $story = $(e.target).closest("li").attr("id");
   let userToken = currentUser.loginToken;
   await axios({
@@ -135,7 +135,9 @@ async function removeStory(e) {
   storyList.stories = storyList.stories.filter(
     (value) => value.storyId !== $story
   );
-  putStoriesOnPage();
+  currentUser.ownStories = currentUser.ownStories.filter((value) => value.storyId !== $story);
+  showUserSubmittedStories();
+  if($ownStories[0].childElementCount === 0){putStoriesOnPage();};
 }
 
 /** Handles user submitted stories and user favorites */
