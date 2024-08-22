@@ -19,15 +19,14 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story, userStory) {
+function generateStoryMarkup(story, userStory, storyDelete) {
   // console.debug("generateStoryMarkup", story);
 
-  const hostName = story.getHostName();
-
+ 
   const userStars = Boolean(currentUser);
-  const storyDelete = Boolean(currentUser);
+  //storyDelete = Boolean(currentUser);
 
-  if($ownStories.is(":hidden")){ userStory = false};
+  //if($ownStories.is(":hidden")){ userStory = false;storyDelete = false;   };
 
   return $(`
       <li id="${story.storyId}">
@@ -36,7 +35,7 @@ function generateStoryMarkup(story, userStory) {
          <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
-        <small class="story-hostname">(${hostName})</small>
+        <small class="story-hostname">(${story.getHostName()})</small>
         ${userStory ? userStoryEdit() : ""}
          <small class="story-author">by ${story.author}</small>
         <small class="story-user">posted by ${story.username}</small>
@@ -100,7 +99,7 @@ function loadMoreStories(){
 
 async function submitNewStory(evt) {
   console.debug("submitNewStory");
-  evt.preventDefault();
+  evt.preventDefault()();
 
   const storyTitle = $("#story-title").val();
   const storyAuthor = $("#story-author").val();
@@ -124,7 +123,7 @@ async function submitNewStory(evt) {
 $storyForm.on("submit", submitNewStory);
 
 async function removeStory(e) {
-  e.preventDefault();
+  e.preventDefault()();
   const $story = $(e.target).closest("li").attr("id");
   let userToken = currentUser.loginToken;
   await axios({
@@ -175,11 +174,12 @@ async function toggleUserFavorites(e) {
 async function showUserSubmittedStories() {
   $ownStories.empty();
   let userStory = true;
+  let storyDelete = true;
   if (currentUser.ownStories.length === 0) {
     $ownStories.append("<h5>You don't have any stories submitted yet.</h5>");
   } else {
     for (let story of currentUser.ownStories) {
-      const newStory = generateStoryMarkup(story, userStory);
+      const newStory = generateStoryMarkup(story, userStory,storyDelete);
       $ownStories.prepend(newStory);
     }
   }
@@ -206,7 +206,7 @@ userEditedStory = $story
 
 async function updateUserStory(e){
   console.debug("updateUserStory");
-  e.preventDefault;
+  e.preventDefault()();
   $storyEditor.hide();
   const storyId = userEditedStory.storyId;
   const storyTitle = $("#edit-story-title").val();
@@ -219,6 +219,7 @@ async function updateUserStory(e){
     author: storyAuthor,
     url: storyUrl,
   });
+  $allStoriesList.show();
 }
 
 $allStoriesList.on("click", ".star", toggleUserFavorites);

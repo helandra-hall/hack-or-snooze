@@ -23,8 +23,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    const url = new URL(this.url);
-    return url.hostname;
+   return new URL(this.url).hostname;
+  
   }
 }
 
@@ -72,18 +72,18 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    const response = await axios({
+    const {data} = await axios({
       url: `${BASE_URL}/stories`,
       method: "POST",
       data: { token: user.loginToken, story: newStory },
     });
 
-    const story = new Story(response.data.story);
-    return story;
+    return new Story(data.story);
+    
   }
 
   async editStory(user, storyID, storyData) {
-    const response = await axios({
+    await axios({
       url: `${BASE_URL}/stories/${storyID}`,
       method: "PATCH",
       data: { token: user.loginToken, story: storyData },
@@ -145,7 +145,7 @@ class User {
         response.data.token
       );
     } catch (err) {
-      err.preventDefault;
+      err.preventDefault();
       const errorStatus = err.response.data.error.status;
       const errorMessage = err.response.data.error.message;
       console.log(errorStatus);
@@ -182,7 +182,7 @@ class User {
         response.data.token
       );
     } catch (err) {
-      err.preventDefault;
+      err.preventDefault();
       const errorStatus = err.response.data.error.status;
       const errorMessage = err.response.data.error.message;
 
